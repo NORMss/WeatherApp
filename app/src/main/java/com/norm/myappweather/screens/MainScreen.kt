@@ -22,6 +22,7 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -124,7 +125,7 @@ fun MainCard() {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TabLayout() {
+fun TabLayout(daysList: MutableState<List<WeatherModel>>) {
     val tabList = listOf("HOURS", "DAYS")
     val pagerState = rememberPagerState { tabList.size }
     val tabIndex = pagerState.currentPage
@@ -166,28 +167,7 @@ fun TabLayout() {
                 modifier = Modifier.fillMaxSize()
             ) {
                 itemsIndexed(
-                    listOf(
-                        WeatherModel(
-                            "Novosibirsk",
-                            "18:00",
-                            "-14°C",
-                            "Clear",
-                            "//cdn.weatherapi.com/weather/128x128/night/113.png",
-                            "",
-                            "",
-                            ""
-                        ),
-                        WeatherModel(
-                            "Novosibirsk",
-                            "19/12/2023",
-                            "",
-                            "Clear",
-                            "//cdn.weatherapi.com/weather/128x128/night/113.png",
-                            "-6°",
-                            "-9°",
-                            ""
-                        )
-                    )
+                    daysList.value
                 ) { _, item ->
                     ListItem(item)
                 }
