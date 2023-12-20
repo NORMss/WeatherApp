@@ -126,7 +126,7 @@ fun MainCard() {
 @Composable
 fun TabLayout() {
     val tabList = listOf("HOURS", "DAYS")
-    val pagerState = rememberPagerState { 2 }
+    val pagerState = rememberPagerState { tabList.size }
     val tabIndex = pagerState.currentPage
     val coroutineScope = rememberCoroutineScope()
 

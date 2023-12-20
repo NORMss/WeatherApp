@@ -63,6 +63,9 @@ dependencies {
     //An image loading library for Android backed by Kotlin Coroutines
     implementation("io.coil-kt:coil-compose:2.5.0")
 
+    //Volley is an HTTP library that makes networking for Android apps easier and most importantly, faster
+    implementation("com.android.volley:volley:1.2.1")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
