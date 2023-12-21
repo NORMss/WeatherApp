@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.norm.myappweather.data.WeatherModel
+import com.norm.myappweather.screens.DialogSearch
 import com.norm.myappweather.screens.MainCard
 import com.norm.myappweather.screens.TabLayout
 import com.norm.myappweather.ui.theme.MyAppWeatherTheme
@@ -29,9 +30,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            var currentCity = "Novosibirsk"
             MyAppWeatherTheme {
                 val daysList = remember {
                     mutableStateOf(listOf<WeatherModel>())
+                }
+                val dialogState = remember {
+                    mutableStateOf(false)
                 }
                 val currentDay = remember {
                     mutableStateOf(
@@ -47,7 +52,13 @@ class MainActivity : ComponentActivity() {
                         )
                     )
                 }
-                getData("Novosibirsk", this, daysList, currentDay)
+                if (dialogState.value) {
+                    DialogSearch(dialogState, onSubmit = {
+                        getData(it, this, daysList, currentDay)
+                        currentCity = it
+                    })
+                }
+                getData(currentCity, this, daysList, currentDay)
                 Image(
                     painter = painterResource(id = R.drawable.bg_img_weather_3_9_20),
                     contentDescription = "im1",
@@ -57,7 +68,11 @@ class MainActivity : ComponentActivity() {
                     contentScale = ContentScale.FillBounds
                 )
                 Column {
-                    MainCard(currentDay)
+                    MainCard(currentDay, onClickSync = {
+                        getData(currentCity, this@MainActivity, daysList, currentDay)
+                    }, onClickSearch = {
+                        dialogState.value = true
+                    })
                     TabLayout(daysList, currentDay)
                 }
             }
